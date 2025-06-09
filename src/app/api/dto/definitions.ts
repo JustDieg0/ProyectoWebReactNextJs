@@ -10,10 +10,13 @@ export type Usuario = {
 };
 
 export type Departamento = {
-    id: string;
+    departamentoid: string;
+    nombre: string;
+    descripcion: string;
     tipo: 'departamento' | 'minidepartamento' | 'cuarto';
     precio_mensual: number;
     estado: 'libre' | 'ocupado' | 'mantenimiento';
-    afoto: number;
+    aforo: number;
     ubicacion: string;
+    activo: 0|1;
 };

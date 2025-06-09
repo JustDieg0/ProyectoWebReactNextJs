@@ -7,7 +7,7 @@ import { fetchDepartamento } from './api/departamentos';
 export default async function Home() {
 
 
-  const departments = await fetchDepartamento() ?? [];
+  const departments = await fetchDepartamento();
   return (
     <div className="min-h-screen flex flex-col text-secondary">
       <UpNav/>
