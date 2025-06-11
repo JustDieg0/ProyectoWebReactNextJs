@@ -9,7 +9,7 @@ export default function DepartamentoEstado({ status }: { status: string }) {
         {
           'bg-gray-100 text-gray-500': status === 'ocupado',
           'bg-green-500 text-white': status === 'disponible',
-          'bg-yellow-500 text-white': status === 'mantenimento',
+          'bg-yellow-500 text-white': status === 'mantenimiento',
         },
       )}
     >

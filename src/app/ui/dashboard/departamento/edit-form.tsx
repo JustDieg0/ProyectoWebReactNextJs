@@ -12,11 +12,13 @@ import {
   NoSymbolIcon
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
-import { createDepartamento } from '@/app/api/departamentos';
+import { updateDepartamento } from '@/app/api/departamentos';
+import { Departamento } from '@/app/api/dto/definitions';
 
-export default function Form() {
+export default function EditDepartamentoForm({ departamento } : { departamento:Departamento; }) {
+    const updateDepartamentoId = updateDepartamento.bind(null, departamento.departamentoid);
   return (
-    <form action={createDepartamento}>
+    <form action={updateDepartamentoId}>
       <div className="rounded-md bg-primary p-4 md:p-6">
         {/* Nombre */}
         <div className="mb-4">
@@ -32,6 +34,7 @@ export default function Form() {
                 step="0.01"
                 placeholder="Ingresa un nombre"
                 className="peer block w-full rounded-md border text-base bg-secondary border-accent py-2 pl-10 outline-2 placeholder:text-accent-light focus:outline-accent-light focus:-outline-offset-1 focus:outline-3"
+                defaultValue={departamento.nombre}
               />
               <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-accent-light peer-focus:text-accent" />
             </div>
@@ -51,6 +54,7 @@ export default function Form() {
                 step="0.01"
                 placeholder="Ingresa una descripción"
                 className="peer block w-full rounded-md border text-base bg-secondary border-accent py-2 pl-10 outline-2 placeholder:text-accent-light focus:outline-accent-light focus:-outline-offset-1 focus:outline-3"
+                defaultValue={departamento.descripcion}
               />
               <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-accent-light peer-focus:text-accent" />
             </div>
@@ -69,6 +73,7 @@ export default function Form() {
                   name="tipo"
                   type="radio"
                   value="departamento"
+                  defaultChecked={departamento.tipo === 'departamento'}
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
                 />
                 <label
@@ -84,6 +89,7 @@ export default function Form() {
                   name="tipo"
                   type="radio"
                   value="minidepartamento"
+                  defaultChecked={departamento.tipo === 'minidepartamento'}
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
                 />
                 <label
@@ -99,6 +105,7 @@ export default function Form() {
                   name="tipo"
                   type="radio"
                   value="cuarto"
+                  defaultChecked={departamento.tipo === 'cuarto'}
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
                 />
                 <label
@@ -125,6 +132,7 @@ export default function Form() {
                 step="0.01"
                 placeholder="Ingresa monto"
                 className="peer block w-full rounded-md border text-base bg-secondary border-accent py-2 pl-10 outline-2 placeholder:text-accent-light focus:outline-accent-light focus:-outline-offset-1 focus:outline-3"
+                defaultValue={departamento.precio_mensual}
               />
               <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-accent-light peer-focus:text-accent" />
             </div>
@@ -143,6 +151,7 @@ export default function Form() {
                   name="estado"
                   type="radio"
                   value="disponible"
+                  defaultChecked={departamento.estado === 'disponible'}
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
                 />
                 <label
@@ -158,6 +167,7 @@ export default function Form() {
                   name="estado"
                   type="radio"
                   value="ocupado"
+                  defaultChecked={departamento.estado === 'ocupado'}
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
                 />
                 <label
@@ -173,6 +183,7 @@ export default function Form() {
                   name="estado"
                   type="radio"
                   value="mantenimiento"
+                  defaultChecked={departamento.estado === 'mantenimiento'}
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
                 />
                 <label
@@ -199,6 +210,7 @@ export default function Form() {
                 step="0.01"
                 placeholder="Ingresa aforo"
                 className="peer block w-full rounded-md border text-base bg-secondary border-accent py-2 pl-10 outline-2 placeholder:text-accent-light focus:outline-accent-light focus:-outline-offset-1 focus:outline-3"
+                defaultValue={departamento.aforo}
               />
               <UserGroupIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-accent-light peer-focus:text-accent" />
             </div>
@@ -218,12 +230,54 @@ export default function Form() {
                 step="0.01"
                 placeholder="Ingresa la ubicación"
                 className="peer block w-full rounded-md border text-base bg-secondary border-accent py-2 pl-10 outline-2 placeholder:text-accent-light focus:outline-accent-light focus:-outline-offset-1 focus:outline-3"
+                defaultValue={departamento.ubicacion}
               />
               <MapPinIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-accent-light peer-focus:text-accent" />
             </div>
           </div>
         </div>
         {/* Activo para el edit*/}
+        <fieldset className='mb-4'>
+          <legend className="mb-2 block font-medium text-base text-accent">
+            Ingresa la actividad del departamento
+          </legend>
+          <div className="rounded-md border border-accent bg-secondary px-[14px] py-3">
+            <div className="flex gap-4">
+              <div className="flex items-center">
+                <input
+                  id="1"
+                  name="activo"
+                  type="radio"
+                  value="1"
+                  defaultChecked={departamento.activo === 1}
+                  className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
+                />
+                <label
+                  htmlFor="disponible"
+                  className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-green-500 px-3 py-1.5 text-xs font-medium text-white"
+                >
+                  Disponible <CheckIcon className="h-4 w-4" />
+                </label>
+              </div>
+              <div className="flex items-center">
+                <input
+                  id="0"
+                  name="activo"
+                  type="radio"
+                  value="0"
+                  defaultChecked={departamento.activo === 0}
+                  className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
+                />
+                <label
+                  htmlFor="ocupado"
+                  className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-600"
+                >
+                  Ocupado <NoSymbolIcon className="h-4 w-4" />
+                </label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
       </div>
       <div className="mt-6 flex justify-end gap-4">
         <Link
@@ -232,7 +286,7 @@ export default function Form() {
         >
           Cancel
         </Link>
-        <Button type="submit">Crear Departamento</Button>
+        <Button type="submit">Editar Departamento</Button>
       </div>
     </form>
   );

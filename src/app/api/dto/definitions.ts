@@ -15,7 +15,7 @@ export type Departamento = {
     descripcion: string;
     tipo: 'departamento' | 'minidepartamento' | 'cuarto';
     precio_mensual: number;
-    estado: 'libre' | 'ocupado' | 'mantenimiento';
+    estado: 'disponible' | 'ocupado' | 'mantenimiento';
     aforo: number;
     ubicacion: string;
     activo: 0|1;

@@ -1,5 +1,6 @@
 import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import { deleteDepartamento } from '@/app/api/departamentos';
 
 export function CreateDepartamento() {
   return (
@@ -16,7 +17,7 @@ export function CreateDepartamento() {
 export function UpdateDepartamento({ id }: { id: string }) {
   return (
     <Link
-      href="/dashboard/departamentos"
+      href={`/dashboard/departamentos/${id}/edit`}
       className="rounded-md border p-2 hover:bg-amber-100"
     >
       <PencilIcon className="w-5" />
@@ -25,12 +26,15 @@ export function UpdateDepartamento({ id }: { id: string }) {
 }
 
 export function DeleteDepartamento({ id }: { id: string }) {
+  const deleteDepartamentoWithId = deleteDepartamento.bind(null, id);
   return (
     <>
+    <form action={deleteDepartamentoWithId}>
       <button type="submit" className="rounded-md border p-2 hover:bg-amber-100">
         <span className="sr-only">Delete</span>
         <TrashIcon className="w-5" />
       </button>
+    </form>
     </>
   );
 }
