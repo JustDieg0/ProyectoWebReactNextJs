@@ -1,12 +1,13 @@
 export type Usuario = {
-    id: string;
+    usuarioid: string;
     nombres: string;
     apellidos: string;
     telefono: string;
     nacionalidad: string;
     doc_ident: string;
     correo: string;
-    contraseña: string;
+    contrasena: string;
+    activo: 0|1;
 };
 
 export type Departamento = {
@@ -20,3 +21,16 @@ export type Departamento = {
     ubicacion: string;
     activo: 0|1;
 };
+
+export type GraficoVentas = {
+    mes: string;
+    ganancia: number;
+}
+
+export type UltimosPagos = {
+    monto: number;
+    usuario: string;
+    tipo_pago: string;
+    fecha_pago: string;
+    estado: string;
+}

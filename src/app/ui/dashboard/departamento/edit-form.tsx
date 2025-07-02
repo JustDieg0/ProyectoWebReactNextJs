@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link';
 import {
   CheckIcon,
@@ -12,13 +14,17 @@ import {
   NoSymbolIcon
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
-import { updateDepartamento } from '@/app/api/departamentos';
+import { updateDepartamento, State } from '@/app/api/departamentos';
 import { Departamento } from '@/app/api/dto/definitions';
+import { useActionState } from 'react';
+import { de } from 'zod/v4/locales';
 
 export default function EditDepartamentoForm({ departamento } : { departamento:Departamento; }) {
     const updateDepartamentoId = updateDepartamento.bind(null, departamento.departamentoid);
+    const initialState: State = { message: null, errors: {} };
+      const [state, formAction] = useActionState(updateDepartamentoId, initialState);
   return (
-    <form action={updateDepartamentoId}>
+    <form action={formAction}>
       <div className="rounded-md bg-primary p-4 md:p-6">
         {/* Nombre */}
         <div className="mb-4">
@@ -34,11 +40,22 @@ export default function EditDepartamentoForm({ departamento } : { departamento:D
                 step="0.01"
                 placeholder="Ingresa un nombre"
                 className="peer block w-full rounded-md border text-base bg-secondary border-accent py-2 pl-10 outline-2 placeholder:text-accent-light focus:outline-accent-light focus:-outline-offset-1 focus:outline-3"
+                aria-describedby="nombre-error"
                 defaultValue={departamento.nombre}
+                required
               />
               <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-accent-light peer-focus:text-accent" />
             </div>
           </div>
+          <div id="nombre-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.nombre &&
+              state.errors.nombre.map((error: string) => (
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
+
         </div>
         {/* Descripción */}
         <div className="mb-4">
@@ -54,10 +71,20 @@ export default function EditDepartamentoForm({ departamento } : { departamento:D
                 step="0.01"
                 placeholder="Ingresa una descripción"
                 className="peer block w-full rounded-md border text-base bg-secondary border-accent py-2 pl-10 outline-2 placeholder:text-accent-light focus:outline-accent-light focus:-outline-offset-1 focus:outline-3"
+                aria-describedby="descripcion-error"
                 defaultValue={departamento.descripcion}
-              />
+                required
+             />
               <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-accent-light peer-focus:text-accent" />
             </div>
+          </div>
+          <div id="descripcion-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.descripcion &&
+              state.errors.descripcion.map((error: string) => (
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
           </div>
         </div>
         {/* Tipo */}
@@ -73,8 +100,10 @@ export default function EditDepartamentoForm({ departamento } : { departamento:D
                   name="tipo"
                   type="radio"
                   value="departamento"
-                  defaultChecked={departamento.tipo === 'departamento'}
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
+                  aria-describedby="tipo-error"
+                  defaultChecked={departamento.tipo === "departamento"}
+                  required
                 />
                 <label
                   htmlFor="departamento"
@@ -89,8 +118,10 @@ export default function EditDepartamentoForm({ departamento } : { departamento:D
                   name="tipo"
                   type="radio"
                   value="minidepartamento"
-                  defaultChecked={departamento.tipo === 'minidepartamento'}
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
+                  aria-describedby="tipo-error"
+                  defaultChecked={departamento.tipo === "minidepartamento"}
+                  required
                 />
                 <label
                   htmlFor="minidepartamento"
@@ -105,8 +136,10 @@ export default function EditDepartamentoForm({ departamento } : { departamento:D
                   name="tipo"
                   type="radio"
                   value="cuarto"
-                  defaultChecked={departamento.tipo === 'cuarto'}
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
+                  aria-describedby="tipo-error"
+                  defaultChecked={departamento.tipo === "cuarto"}
+                  required
                 />
                 <label
                   htmlFor="cuarto"
@@ -116,6 +149,14 @@ export default function EditDepartamentoForm({ departamento } : { departamento:D
                 </label>
               </div>
             </div>
+            <div id="tipo-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.tipo &&
+              state.errors.tipo.map((error: string) => (
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
           </div>
         </fieldset>
         {/* Precio mensual */}
@@ -132,10 +173,20 @@ export default function EditDepartamentoForm({ departamento } : { departamento:D
                 step="0.01"
                 placeholder="Ingresa monto"
                 className="peer block w-full rounded-md border text-base bg-secondary border-accent py-2 pl-10 outline-2 placeholder:text-accent-light focus:outline-accent-light focus:-outline-offset-1 focus:outline-3"
+                aria-describedby="precio_mensual-error"
                 defaultValue={departamento.precio_mensual}
+                required
               />
               <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-accent-light peer-focus:text-accent" />
             </div>
+          </div>
+          <div id="precio_mensual-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.precio_mensual &&
+              state.errors.precio_mensual.map((error: string) => (
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
           </div>
         </div>
         {/* Estado */}
@@ -151,8 +202,10 @@ export default function EditDepartamentoForm({ departamento } : { departamento:D
                   name="estado"
                   type="radio"
                   value="disponible"
-                  defaultChecked={departamento.estado === 'disponible'}
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
+                  aria-describedby="estado-error"
+                  defaultChecked={departamento.estado === "disponible"}
+                  required
                 />
                 <label
                   htmlFor="disponible"
@@ -167,8 +220,10 @@ export default function EditDepartamentoForm({ departamento } : { departamento:D
                   name="estado"
                   type="radio"
                   value="ocupado"
-                  defaultChecked={departamento.estado === 'ocupado'}
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
+                  aria-describedby="estado-error"
+                  defaultChecked={departamento.estado === "ocupado"}
+                  required
                 />
                 <label
                   htmlFor="ocupado"
@@ -183,8 +238,10 @@ export default function EditDepartamentoForm({ departamento } : { departamento:D
                   name="estado"
                   type="radio"
                   value="mantenimiento"
-                  defaultChecked={departamento.estado === 'mantenimiento'}
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
+                  aria-describedby="estado-error"
+                  defaultChecked={departamento.estado === "mantenimiento"}
+                  required
                 />
                 <label
                   htmlFor="mantenimiento"
@@ -194,6 +251,14 @@ export default function EditDepartamentoForm({ departamento } : { departamento:D
                 </label>
               </div>
             </div>
+            <div id="estado-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.estado &&
+              state.errors.estado.map((error: string) => (
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
           </div>
         </fieldset>
         {/* Aforo */}
@@ -210,10 +275,20 @@ export default function EditDepartamentoForm({ departamento } : { departamento:D
                 step="0.01"
                 placeholder="Ingresa aforo"
                 className="peer block w-full rounded-md border text-base bg-secondary border-accent py-2 pl-10 outline-2 placeholder:text-accent-light focus:outline-accent-light focus:-outline-offset-1 focus:outline-3"
+                aria-describedby="aforo-error"
                 defaultValue={departamento.aforo}
+                required
               />
               <UserGroupIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-accent-light peer-focus:text-accent" />
             </div>
+          </div>
+          <div id="aforo-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.aforo &&
+              state.errors.aforo.map((error: string) => (
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
           </div>
         </div>
         {/* Ubicación */}
@@ -230,10 +305,20 @@ export default function EditDepartamentoForm({ departamento } : { departamento:D
                 step="0.01"
                 placeholder="Ingresa la ubicación"
                 className="peer block w-full rounded-md border text-base bg-secondary border-accent py-2 pl-10 outline-2 placeholder:text-accent-light focus:outline-accent-light focus:-outline-offset-1 focus:outline-3"
+                aria-describedby="ubicacion-error"
                 defaultValue={departamento.ubicacion}
+                required
               />
               <MapPinIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-accent-light peer-focus:text-accent" />
             </div>
+          </div>
+          <div id="ubicacion-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.ubicacion &&
+              state.errors.ubicacion.map((error: string) => (
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
           </div>
         </div>
         {/* Activo para el edit*/}

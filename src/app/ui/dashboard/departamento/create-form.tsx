@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link';
 import {
   CheckIcon,
@@ -12,11 +14,14 @@ import {
   NoSymbolIcon
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
-import { createDepartamento } from '@/app/api/departamentos';
+import { createDepartamento, State } from '@/app/api/departamentos';
+import { useActionState } from 'react';
 
 export default function Form() {
+  const initialState: State = { message: null, errors: {} };
+  const [state, formAction] = useActionState(createDepartamento, initialState);
   return (
-    <form action={createDepartamento}>
+    <form action={formAction}>
       <div className="rounded-md bg-primary p-4 md:p-6">
         {/* Nombre */}
         <div className="mb-4">
@@ -32,10 +37,21 @@ export default function Form() {
                 step="0.01"
                 placeholder="Ingresa un nombre"
                 className="peer block w-full rounded-md border text-base bg-secondary border-accent py-2 pl-10 outline-2 placeholder:text-accent-light focus:outline-accent-light focus:-outline-offset-1 focus:outline-3"
+                aria-describedby="nombre-error"
+                required
               />
               <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-accent-light peer-focus:text-accent" />
             </div>
           </div>
+          <div id="nombre-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.nombre &&
+              state.errors.nombre.map((error: string) => (
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
+
         </div>
         {/* Descripción */}
         <div className="mb-4">
@@ -51,9 +67,19 @@ export default function Form() {
                 step="0.01"
                 placeholder="Ingresa una descripción"
                 className="peer block w-full rounded-md border text-base bg-secondary border-accent py-2 pl-10 outline-2 placeholder:text-accent-light focus:outline-accent-light focus:-outline-offset-1 focus:outline-3"
-              />
+                aria-describedby="descripcion-error"
+                required
+             />
               <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-accent-light peer-focus:text-accent" />
             </div>
+          </div>
+          <div id="descripcion-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.descripcion &&
+              state.errors.descripcion.map((error: string) => (
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
           </div>
         </div>
         {/* Tipo */}
@@ -70,6 +96,8 @@ export default function Form() {
                   type="radio"
                   value="departamento"
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
+                  aria-describedby="tipo-error"
+                  required
                 />
                 <label
                   htmlFor="departamento"
@@ -85,6 +113,8 @@ export default function Form() {
                   type="radio"
                   value="minidepartamento"
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
+                  aria-describedby="tipo-error"
+                  required
                 />
                 <label
                   htmlFor="minidepartamento"
@@ -100,6 +130,8 @@ export default function Form() {
                   type="radio"
                   value="cuarto"
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
+                  aria-describedby="tipo-error"
+                  required
                 />
                 <label
                   htmlFor="cuarto"
@@ -109,6 +141,14 @@ export default function Form() {
                 </label>
               </div>
             </div>
+            <div id="tipo-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.tipo &&
+              state.errors.tipo.map((error: string) => (
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
           </div>
         </fieldset>
         {/* Precio mensual */}
@@ -125,9 +165,19 @@ export default function Form() {
                 step="0.01"
                 placeholder="Ingresa monto"
                 className="peer block w-full rounded-md border text-base bg-secondary border-accent py-2 pl-10 outline-2 placeholder:text-accent-light focus:outline-accent-light focus:-outline-offset-1 focus:outline-3"
+                aria-describedby="precio_mensual-error"
+                required
               />
               <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-accent-light peer-focus:text-accent" />
             </div>
+          </div>
+          <div id="precio_mensual-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.precio_mensual &&
+              state.errors.precio_mensual.map((error: string) => (
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
           </div>
         </div>
         {/* Estado */}
@@ -144,6 +194,8 @@ export default function Form() {
                   type="radio"
                   value="disponible"
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
+                  aria-describedby="estado-error"
+                  required
                 />
                 <label
                   htmlFor="disponible"
@@ -159,6 +211,8 @@ export default function Form() {
                   type="radio"
                   value="ocupado"
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
+                  aria-describedby="estado-error"
+                  required
                 />
                 <label
                   htmlFor="ocupado"
@@ -174,6 +228,8 @@ export default function Form() {
                   type="radio"
                   value="mantenimiento"
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
+                  aria-describedby="estado-error"
+                  required
                 />
                 <label
                   htmlFor="mantenimiento"
@@ -183,6 +239,14 @@ export default function Form() {
                 </label>
               </div>
             </div>
+            <div id="estado-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.estado &&
+              state.errors.estado.map((error: string) => (
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
           </div>
         </fieldset>
         {/* Aforo */}
@@ -199,9 +263,19 @@ export default function Form() {
                 step="0.01"
                 placeholder="Ingresa aforo"
                 className="peer block w-full rounded-md border text-base bg-secondary border-accent py-2 pl-10 outline-2 placeholder:text-accent-light focus:outline-accent-light focus:-outline-offset-1 focus:outline-3"
+                aria-describedby="aforo-error"
+                required
               />
               <UserGroupIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-accent-light peer-focus:text-accent" />
             </div>
+          </div>
+          <div id="aforo-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.aforo &&
+              state.errors.aforo.map((error: string) => (
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
           </div>
         </div>
         {/* Ubicación */}
@@ -218,9 +292,19 @@ export default function Form() {
                 step="0.01"
                 placeholder="Ingresa la ubicación"
                 className="peer block w-full rounded-md border text-base bg-secondary border-accent py-2 pl-10 outline-2 placeholder:text-accent-light focus:outline-accent-light focus:-outline-offset-1 focus:outline-3"
+                aria-describedby="ubicacion-error"
+                required
               />
               <MapPinIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-accent-light peer-focus:text-accent" />
             </div>
+          </div>
+          <div id="ubicacion-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.ubicacion &&
+              state.errors.ubicacion.map((error: string) => (
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
           </div>
         </div>
         {/* Activo para el edit*/}

@@ -1,13 +1,13 @@
 import Image from 'next/image';
-import { UpdateDepartamento, DeleteDepartamento } from '@/app/ui/dashboard/departamento/buttons';
+import { UpdateDepartamento, DeleteDepartamento, SwitchActivateDepartamento } from '@/app/ui/dashboard/departamento/buttons';
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
-import { fetchDepartamento } from '@/app/api/departamentos';
+import { fetchAdminDepartamento } from '@/app/api/departamentos';
 import DepartamentoEstado from './estado';
 import DepartamentoActivo from './activo';
 
 export default async function DepartamentosTable() {
-  const departamentos = await fetchDepartamento();
-
+  const departamentos = await fetchAdminDepartamento();
+  
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
@@ -111,6 +111,7 @@ export default async function DepartamentosTable() {
                     <div className="flex justify-end gap-3">
                       <UpdateDepartamento id={departamento.departamentoid} />
                       <DeleteDepartamento id={departamento.departamentoid} />
+                      <SwitchActivateDepartamento id={departamento.departamentoid} value={departamento.activo}/> 
                     </div>
                   </td>
                 </tr>
