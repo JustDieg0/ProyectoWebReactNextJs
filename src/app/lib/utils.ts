@@ -1,3 +1,4 @@
+import { GraficoVentas } from '../api/dto/definitions';
 import { Revenue } from './definitions';
 
 export const formatCurrency = (amount: number) => {
@@ -21,11 +22,22 @@ export const formatDateToLocal = (
   return formatter.format(date);
 };
 
-export const generateYAxis = (revenue: Revenue[]) => {
+export const formatToShortDate = (isoDateStr: string) => {
+  const date = new Date(isoDateStr);
+
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(date.getUTCDate()).padStart(2, '0');
+  const year = String(date.getUTCFullYear()).slice(-2);
+
+  return `${month}/${day}/${year}`;
+}
+
+
+export const generateYAxis = (graph: GraficoVentas[]) => {
   // Calculate what labels we need to display on the y-axis
   // based on highest record and in 1000s
   const yAxisLabels = [];
-  const highestRecord = Math.max(...revenue.map((month) => month.revenue));
+  const highestRecord = Math.max(...graph.map((mes) => mes.ganancia));
   const topLabel = Math.ceil(highestRecord / 1000) * 1000;
 
   for (let i = topLabel; i >= 0; i -= 1000) {

@@ -1,24 +1,22 @@
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
-import Image from 'next/image';
 import { lusitana } from '@/app/ui/fonts';
-import { LatestInvoice } from '@/app/lib/definitions';
-import { fetchLatestInvoices } from '@/app/lib/data';
+import { ultimosPagos } from '@/app/api/pago';
+import { formatToShortDate } from '@/app/lib/utils';
 export default async function LatestInvoices() {
-  const latestInvoices = await fetchLatestInvoices();
+  const latestInvoices = await ultimosPagos();
   return (
     <div className="flex w-full flex-col md:col-span-4">
       <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-        Latest Invoices
+        Próximos pagos
       </h2>
       <div className="flex grow flex-col justify-between rounded-xl bg-primary p-4">
-        {/* NOTE: Uncomment this code in Chapter 7 */}
 
-        { <div className="bg-secondary px-6">
-          {latestInvoices.map((invoice, i) => {
+        { <div className="bg-secondary px-6 border-2 rounded-2xl">
+          {latestInvoices.map((pago, i) => {
             return (
               <div
-                key={invoice.id}
+                key={i}
                 className={clsx(
                   'flex flex-row items-center justify-between py-4',
                   {
@@ -26,27 +24,26 @@ export default async function LatestInvoices() {
                   },
                 )}
               >
-                <div className="flex items-center">
-                  <Image
-                    src={invoice.image_url}
-                    alt={`${invoice.name}'s profile picture`}
-                    className="mr-4 rounded-full text-accent"
-                    width={32}
-                    height={32}
-                  />
+                <div className="flex items-center w-1/4">
                   <div className="min-w-0">
                     <p className="truncate text-sm font-semibold md:text-base text-accent">
-                      {invoice.name}
+                      {pago.usuario}
                     </p>
-                    <p className="hidden text-sm text-gray-500 sm:block text-accent">
-                      {invoice.email}
+                    <p className="hidden text-sm sm:block text-accent">
+                      {pago.tipo_pago}
                     </p>
                   </div>
                 </div>
+                <div className={`${lusitana.className}w-1/4 text-center text-accent`}>
+                  <p>{formatToShortDate(pago.fecha_pago)}</p>
+                </div>
+                <div className={`w-1/4 text-center text-accent`}>
+                  <p>{pago.estado}</p>
+                </div>
                 <p
-                  className={`${lusitana.className} truncate text-sm font-medium md:text-base text-accent`}
+                  className={`${lusitana.className} truncate text-sm font-medium md:text-base text-right text-accent w-1/6`}
                 >
-                  {invoice.amount}
+                  {pago.monto}
                 </p>
               </div>
             );
@@ -54,7 +51,7 @@ export default async function LatestInvoices() {
         </div>}
         <div className="flex items-center pb-2 pt-6">
           <ArrowPathIcon className="h-5 w-5 text-gray-700" />
-          <h3 className="ml-2 text-sm text-gray-700 ">Updated just now</h3>
+          <h3 className="ml-2 text-sm text-gray-700 ">Actualizado justo ahora</h3>
         </div>
       </div>
     </div>

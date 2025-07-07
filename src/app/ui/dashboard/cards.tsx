@@ -1,37 +1,37 @@
 import {
   BanknotesIcon,
-  ClockIcon,
+  DocumentIcon,
   UserGroupIcon,
   InboxIcon,
 } from '@heroicons/react/24/outline';
 import { lusitana } from '@/app/ui/fonts';
-import { fetchCardData } from '@/app/lib/data';
+import { fetchCountUsuarios } from '@/app/api/usuarios';
+import { fetchCountContratos } from '@/app/api/contrato';
+import { fetchCountPagos } from '@/app/api/pago';
+import { fetchCountReservas } from '@/app/api/reservas';
 
 const iconMap = {
-  collected: BanknotesIcon,
-  customers: UserGroupIcon,
-  pending: ClockIcon,
-  invoices: InboxIcon,
+  usuarios: UserGroupIcon,
+  contratos: DocumentIcon,
+  pagos: BanknotesIcon,
+  reservas: InboxIcon,
 };
 
 export default async function CardWrapper() {
-    const {
-      numberOfInvoices,
-      numberOfCustomers,
-      totalPaidInvoices,
-      totalPendingInvoices,
-    } = await fetchCardData();
+    const numberOfUsers = await fetchCountUsuarios();
+    const numberOfContract = await fetchCountContratos();
+    const quantityOfSells = await fetchCountPagos();
+    const numberOfReservation = await fetchCountReservas();
+
   return (
     <>
-      {/* NOTE: Uncomment this code in Chapter 9 */}
-
-      <Card title="Collected" value={totalPaidInvoices} type="collected" />
-      <Card title="Pending" value={totalPendingInvoices} type="pending" />
-      <Card title="Total Invoices" value={numberOfInvoices} type="invoices" />
+      <Card title="Usuarios registrados" value={numberOfUsers} type="usuarios" />
+      <Card title="Contratos activos" value={numberOfContract} type="contratos" />
+      <Card title="Pagos recibidos" value={`S/.${quantityOfSells}`} type="pagos" />
       <Card
-        title="Total Customers"
-        value={numberOfCustomers}
-        type="customers"
+        title="Total de reservas"
+        value={numberOfReservation}
+        type="reservas"
       /> 
     </>
   );
@@ -44,7 +44,7 @@ export function Card({
 }: {
   title: string;
   value: number | string;
-  type: 'invoices' | 'customers' | 'pending' | 'collected';
+  type: 'usuarios' | 'contratos' | 'pagos' | 'reservas';
 }) {
   const Icon = iconMap[type];
 

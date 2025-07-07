@@ -1,13 +1,5 @@
-import DepartamentoDetalle from "@/app/ui/departamento/departamento-detalle";
+import { notFound } from "next/navigation";
 
 export default function Page() {
-    return (
-        <>
-            <div
-            className=""
-            >
-                <DepartamentoDetalle/>
-            </div>
-        </>
-    );
-  }
+    notFound();
+}

@@ -38,8 +38,10 @@ input[type="number"]::-webkit-outer-spin-button {
 
 @theme {
   --color-primary: #be8d63;
+  --color-primary-light: #cc9668;
   --color-secondary: #efdbb6;
   --color-accent: #543424;
+  --color-accent-light: #7d4e37;
 }
 
 /* Aplicación general del tema */

@@ -1,19 +1,36 @@
 export type Usuario = {
-    id: string;
+    usuarioid: string;
     nombres: string;
     apellidos: string;
     telefono: string;
     nacionalidad: string;
     doc_ident: string;
     correo: string;
-    contraseña: string;
+    contrasena: string;
+    activo: 0|1;
 };
 
 export type Departamento = {
-    id: string;
+    departamentoid: string;
+    nombre: string;
+    descripcion: string;
     tipo: 'departamento' | 'minidepartamento' | 'cuarto';
     precio_mensual: number;
-    estado: 'libre' | 'ocupado' | 'mantenimiento';
-    afoto: number;
+    estado: 'disponible' | 'ocupado' | 'mantenimiento';
+    aforo: number;
     ubicacion: string;
+    activo: 0|1;
 };
+
+export type GraficoVentas = {
+    mes: string;
+    ganancia: number;
+}
+
+export type UltimosPagos = {
+    monto: number;
+    usuario: string;
+    tipo_pago: string;
+    fecha_pago: string;
+    estado: string;
+}
