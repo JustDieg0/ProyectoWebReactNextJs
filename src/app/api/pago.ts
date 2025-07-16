@@ -58,3 +58,22 @@ export async function ultimosPagos() : Promise<UltimosPagos[]> {
         return [];
     }
 }
+
+//Extraer pagos por periodo Año y mes
+export async function fetchPagosPorPeriodo(year: number, month: number): Promise<any[]> {
+    try {
+        const response = await axios.get(`${url_base}pago/periodo/${year}/${month}`);
+        const message = response.data.message;
+        const data = response.data.data;
+
+        if (Array.isArray(data)) {
+            return data;
+        } else {
+            console.warn("La respuesta no es un array:", data);
+            return [];
+        }
+    } catch (error) {
+        console.error("Error al obtener pagos por periodo:", error);
+        return [];
+    }
+}

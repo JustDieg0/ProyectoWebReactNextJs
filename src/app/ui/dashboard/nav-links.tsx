@@ -4,6 +4,7 @@ import {
     UserGroupIcon,
     HomeIcon,
     BuildingOfficeIcon,
+    FireIcon
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -15,6 +16,10 @@ const links = [
     { name: 'Inicio', href: '/dashboard', icon: HomeIcon },
     { name: 'Clientes', href: '/dashboard/clientes', icon: UserGroupIcon },
     { name: 'Departamentos', href: '/dashboard/departamentos', icon: BuildingOfficeIcon },
+    { name: 'Reporte de Reserva', href: '/dashboard/reservas', icon: HomeIcon },
+    { name: 'Reporte Departamentos Eliminados', href: '/dashboard/departamentosEliminados', icon: BuildingOfficeIcon },
+    { name: 'Reporte Contrato', href: '/dashboard/contratopago', icon: UserGroupIcon },
+    { name: 'Pagos', href: '/dashboard/pago', icon: FireIcon },
 ];
 
 export default function NavLinks(){

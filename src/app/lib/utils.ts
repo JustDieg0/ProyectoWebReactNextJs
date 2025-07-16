@@ -34,18 +34,20 @@ export const formatToShortDate = (isoDateStr: string) => {
 
 
 export const generateYAxis = (graph: GraficoVentas[]) => {
-  // Calculate what labels we need to display on the y-axis
-  // based on highest record and in 1000s
-  const yAxisLabels = [];
+  const yAxisLabels: string[] = [];
   const highestRecord = Math.max(...graph.map((mes) => mes.ganancia));
   const topLabel = Math.ceil(highestRecord / 1000) * 1000;
 
-  for (let i = topLabel; i >= 0; i -= 1000) {
+  const maxLabels = 17;
+  const step = Math.ceil(topLabel / (maxLabels - 1) / 1000) * 1000;
+
+  for (let i = topLabel; i >= 0; i -= step) {
     yAxisLabels.push(`$${i / 1000}K`);
   }
 
   return { yAxisLabels, topLabel };
 };
+
 
 export const generatePagination = (currentPage: number, totalPages: number) => {
   // If the total number of pages is 7 or less,

@@ -29,9 +29,9 @@ export const authOptions: NextAuthOptions = {
           }
 
           return {
-            id: data.user.id,
-            nombres: data.user.name,
-            correo: data.user.email,
+            id: data.user.usuarioid,
+            nombres: data.user.nombres,
+            correo: data.user.correo,
             rol: data.user.rol,
             token: data.token,
           }

@@ -8,7 +8,7 @@ import { lusitana } from '@/app/ui/fonts';
 import { fetchCountUsuarios } from '@/app/api/usuarios';
 import { fetchCountContratos } from '@/app/api/contrato';
 import { fetchCountPagos } from '@/app/api/pago';
-import { fetchCountReservas } from '@/app/api/reservas';
+import { fetchCountReservas } from '@/app/api/reserva';
 
 const iconMap = {
   usuarios: UserGroupIcon,
